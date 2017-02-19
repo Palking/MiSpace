@@ -15,6 +15,7 @@ namespace MiSpace
         Triangle triangle;
         Rectangle rectangle;
         BasicEffect effect;
+        Sphere sphere;
 
         public Game1()
         {
@@ -29,7 +30,7 @@ namespace MiSpace
             floor = new Floor(GraphicsDevice, 20, 20);
             effect = new BasicEffect(GraphicsDevice);
             cuboid = new Cuboid(GraphicsDevice, 1, 1, 1);
-         
+            sphere = new Sphere(GraphicsDevice, 10);
             base.Initialize();
         }
 
@@ -55,8 +56,8 @@ namespace MiSpace
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             floor.Draw(camera, effect);
-            cuboid.Draw(camera, effect);
-
+           // cuboid.Draw(camera, effect);
+            sphere.Draw(camera, effect);
             base.Draw(gameTime);
         }
     }
