@@ -124,6 +124,16 @@ namespace MiSpace
             Vector3 moveVector = Vector3.Zero;
             float moveValue = 1f;
 
+            if (ks.IsKeyDown(Keys.Q))
+            {
+                moveVector.Y = moveValue;
+            }
+
+            if (ks.IsKeyDown(Keys.E))
+            {
+                moveVector.Y = -moveValue;
+            }
+
             if (ks.IsKeyDown(Keys.W))
             {
                 moveVector.Z = moveValue;

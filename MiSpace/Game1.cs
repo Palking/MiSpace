@@ -11,6 +11,9 @@ namespace MiSpace
 
         Camera camera;
         Floor floor;
+        Cuboid cuboid;
+        Triangle triangle;
+        Rectangle rectangle;
         BasicEffect effect;
 
         public Game1()
@@ -22,17 +25,17 @@ namespace MiSpace
         protected override void Initialize()
         {
             camera = new Camera(this, new Vector3(10f, 1f, 5f), Vector3.Zero, 5f);
-            Components.Add(camera);
+            Components.Add(camera);    
             floor = new Floor(GraphicsDevice, 20, 20);
             effect = new BasicEffect(GraphicsDevice);
-
+            cuboid = new Cuboid(GraphicsDevice, 1, 1, 1);
+         
             base.Initialize();
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
         }
 
         protected override void UnloadContent()
@@ -52,6 +55,7 @@ namespace MiSpace
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             floor.Draw(camera, effect);
+            cuboid.Draw(camera, effect);
 
             base.Draw(gameTime);
         }
