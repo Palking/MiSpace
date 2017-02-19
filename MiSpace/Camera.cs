@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,6 +17,9 @@ namespace MiSpace
         private Vector3 cameraPosition;
         private Vector3 cameraRotation;
         private Vector3 cameraLookAt;
+        private Vector3 mouseRotationBuffer;
+        private MouseState currentMouseState;
+        private MouseState previousMouseState;
 
         private float cameraSpeed;
 
@@ -69,6 +73,8 @@ namespace MiSpace
 
             // Set camera position and rotation
             MoveTo(position, rotation);
+
+            previousMouseState = Mouse.GetState();
         }
 
         // Set camera'S position and rotation
@@ -89,10 +95,106 @@ namespace MiSpace
             cameraLookAt = cameraPosition + lookAtOffset;
         }
 
+        // Method that simulates movement
+        private Vector3 PreviewMove(Vector3 amount)
+        {
+            // create a rotate matrix
+            Matrix rotate = Matrix.CreateRotationY(cameraRotation.Y);
+
+            // create a movement vector
+            Vector3 movement = new Vector3(amount.X, amount.Y, amount.Z);
+            movement = Vector3.Transform(movement, rotate);
+
+            return cameraPosition + movement;
+        }
+
+        // Method that actually moves the camera
+        private void Move(Vector3 scale)
+        {
+            MoveTo(PreviewMove(scale), Rotation);
+        }
+
         // update method
         public override void Update(GameTime gameTime)
         {
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            // handle keyboard movement
+            KeyboardState ks = Keyboard.GetState();
+            Vector3 moveVector = Vector3.Zero;
+            float moveValue = 1f;
+
+            if (ks.IsKeyDown(Keys.W))
+            {
+                moveVector.Z = moveValue;
+            }
+
+            if (ks.IsKeyDown(Keys.S))
+            {
+                moveVector.Z = -moveValue;
+            }
+
+            if (ks.IsKeyDown(Keys.A))
+            {
+                moveVector.X = moveValue;
+            }
+
+            if (ks.IsKeyDown(Keys.D))
+            {
+                moveVector.X = -moveValue;
+            }
+
+            if (moveVector != Vector3.Zero)
+            {
+                // normalize that vector
+                // so that we dont move faster diagonally
+                moveVector.Normalize();
+
+                moveVector *= dt * cameraSpeed;
+
+                Move(moveVector);
+            }
+
+            // handle mouse movement
+            currentMouseState = Mouse.GetState();
+
+            float deltaX;
+            float deltaY;
+            float mouseSpeed = 0.1f;
+            float maxYAngle = 75.0f;
+
+            if (currentMouseState != previousMouseState)
+            {
+                // Cache mouse location
+                deltaX = currentMouseState.X - (Game.GraphicsDevice.Viewport.Width / 2);
+                deltaY = currentMouseState.Y - (Game.GraphicsDevice.Viewport.Height / 2);
+
+                mouseRotationBuffer.X -= mouseSpeed * deltaX * dt;
+                mouseRotationBuffer.Y -= mouseSpeed * deltaY * dt;
+
+                if (mouseRotationBuffer.Y < MathHelper.ToRadians(-maxYAngle))
+                {
+                    mouseRotationBuffer.Y = mouseRotationBuffer.Y - (mouseRotationBuffer.Y - MathHelper.ToRadians(-maxYAngle));
+                }
+
+                if(mouseRotationBuffer.Y > MathHelper.ToRadians(maxYAngle))
+                {
+                    mouseRotationBuffer.Y = mouseRotationBuffer.Y - (mouseRotationBuffer.Y - MathHelper.ToRadians(maxYAngle));
+                }
+
+                // z coordinate have to be 0
+                Rotation = new Vector3(-MathHelper.Clamp(mouseRotationBuffer.Y, MathHelper.ToRadians(-maxYAngle), MathHelper.ToRadians(maxYAngle)),
+                    MathHelper.WrapAngle(mouseRotationBuffer.X), 0);
+
+                // reset delta values
+                deltaX = 0;
+                deltaY = 0;
+            }
+
+            Mouse.SetPosition(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
+
+            previousMouseState = currentMouseState;
+
             base.Update(gameTime);
         }
     }
