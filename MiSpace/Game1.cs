@@ -21,7 +21,7 @@ namespace MiSpace
 
         protected override void Initialize()
         {
-            camera = new Camera(this, new Vector3(10f, 4f, 5f), Vector3.Zero, 5f);
+            camera = new Camera(this, new Vector3(10f, 1f, 5f), Vector3.Zero, 5f);
             Components.Add(camera);
             floor = new Floor(GraphicsDevice, 20, 20);
             effect = new BasicEffect(GraphicsDevice);

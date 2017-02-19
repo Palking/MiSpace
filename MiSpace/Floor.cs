@@ -48,7 +48,7 @@ namespace MiSpace
 
             // Create our buffer
             floorBuffer = new VertexBuffer(device, VertexPositionColor.VertexDeclaration, vertexList.Count, BufferUsage.None);
-            floorBuffer.SetData<VertexPositionColor>(vertexList.ToArray());
+            floorBuffer.SetData(vertexList.ToArray());
         }
 
         // Defines a single tile in our floor

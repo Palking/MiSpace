@@ -68,7 +68,7 @@ namespace MiSpace
                 );
 
             // Set camera position and rotation
-            
+            MoveTo(position, rotation);
         }
 
         // Set camera'S position and rotation
