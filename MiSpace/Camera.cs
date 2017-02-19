@@ -11,7 +11,7 @@ namespace MiSpace
     {
         // This attribute represents the camera position
         Vector3 camPosition;
-        //This attribute represents the camera target
+        // This attribute represents the camera target
         Vector3 camTarget;
         Matrix viewMatrix;
         Matrix worldMatrix;
