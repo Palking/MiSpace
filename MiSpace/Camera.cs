@@ -9,6 +9,7 @@ namespace MiSpace
 {
     class Camera
     {
+        // This attribute represents the camera position
         Vector3 camPosition;
         Vector3 camTarget;
         Matrix viewMatrix;
