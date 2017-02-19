@@ -7,28 +7,93 @@ using System.Threading.Tasks;
 
 namespace MiSpace
 {
-    class Camera
+    class Camera : GameComponent
     {
-        // This attribute represents the camera position
-        Vector3 camPosition;
-        // This attribute represents the camera target
-        Vector3 camTarget;
-        Matrix viewMatrix;
-        Matrix worldMatrix;
-        Matrix projectionMatrix;
+        // Attributes
+        private const float NearPlaneDistance = 0.05f;
+        private const float FarPlaceDistance = 1000.0f;
 
-        public void Initialize(Game1 game)
+        private Vector3 cameraPosition;
+        private Vector3 cameraRotation;
+        private Vector3 cameraLookAt;
+
+        private float cameraSpeed;
+
+        // Properties
+        public Vector3 Position
         {
-            camTarget = new Vector3(0f, 0f, 0f);
-            camPosition = new Vector3(0f, 20f, -10f);
+            get { return cameraPosition; }
+            set
+            {
+                cameraPosition = value;
+                UpdateLookAt();
+            }
+        }
 
+        public Vector3 Rotation
+        {
+            get { return cameraRotation; }
+            set
+            {
+                cameraRotation = value;
+                UpdateLookAt();
+            }
+        }
 
-            projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-                                    MathHelper.ToRadians(45f),
-                                    game.GraphicsDevice.DisplayMode.AspectRatio, 1f, 1000f);
+        public Matrix Projection
+        {
+            get;
+            protected set;
+        }
 
-            viewMatrix = Matrix.CreateLookAt(camPosition, camTarget, Vector3.Up);
-            worldMatrix = Matrix.CreateWorld(camTarget, Vector3.Forward, Vector3.Up);
+        public Matrix View
+        {
+            get
+            {
+                return Matrix.CreateLookAt(cameraPosition, cameraLookAt, Vector3.Up);
+            }
+        }
+
+        public Camera (Game game, Vector3 position, Vector3 rotation, float speed)
+            : base(game)
+        {
+            cameraSpeed = speed;
+
+            // Setup projection matrix
+            Projection = Matrix.CreatePerspectiveFieldOfView(
+                MathHelper.PiOver4,
+                Game.GraphicsDevice.Viewport.AspectRatio,
+                NearPlaneDistance,
+                FarPlaceDistance
+                );
+
+            // Set camera position and rotation
+            
+        }
+
+        // Set camera'S position and rotation
+        private void MoveTo(Vector3 position, Vector3 rotation)
+        {
+            Position = position;
+            Rotation = rotation;
+        }
+
+        // Update the "Look At Vector"
+        private void UpdateLookAt()
+        {
+            // Build a rotation matrix
+            Matrix rotationMatrix = Matrix.CreateRotationX(cameraRotation.X) * Matrix.CreateRotationY(cameraRotation.Y);
+            // Build look at offset vector
+            Vector3 lookAtOffset = Vector3.Transform(Vector3.UnitZ, rotationMatrix);
+            // Update our camer's look at vector
+            cameraLookAt = cameraPosition + lookAtOffset;
+        }
+
+        // update method
+        public override void Update(GameTime gameTime)
+        {
+            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            base.Update(gameTime);
         }
     }
 }
