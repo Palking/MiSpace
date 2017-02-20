@@ -12,6 +12,7 @@ namespace MiSpace
         Camera camera;
         Floor floor;
         Cuboid cuboid;
+        Cuboid movedCuboid;
         Triangle triangle;
         Rectangle rectangle;
         BasicEffect effect;
@@ -29,8 +30,9 @@ namespace MiSpace
             Components.Add(camera);    
             floor = new Floor(GraphicsDevice, 20, 20);
             effect = new BasicEffect(GraphicsDevice);
-            cuboid = new Cuboid(GraphicsDevice, 1, 1, 1);
-            sphere = new Sphere(GraphicsDevice, 10);
+            //cuboid = new Cuboid(GraphicsDevice, 1, 1, 1);
+            movedCuboid = new Cuboid(GraphicsDevice, new Vector3(3, 0, 2), 2, 1, 1);
+            //sphere = new Sphere(GraphicsDevice, 10);
             base.Initialize();
         }
 
@@ -56,8 +58,9 @@ namespace MiSpace
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             floor.Draw(camera, effect);
-           // cuboid.Draw(camera, effect);
-            sphere.Draw(camera, effect);
+            //cuboid.Draw(camera, effect);
+            movedCuboid.Draw(camera, effect);
+            //sphere.Draw(camera, effect);
             base.Draw(gameTime);
         }
     }
