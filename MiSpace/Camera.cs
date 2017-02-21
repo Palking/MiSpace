@@ -204,7 +204,7 @@ namespace MiSpace
 
             //BUG:
             //      - Throws Exception when game is closed: System.NullReferenceException
-            //      - Mouse gets 'stuck' when tabbing out. (-> check if window is active)
+            //          only when closed by 'X' or ESC, not alt + f4
             Mouse.SetPosition(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
 
             previousMouseState = currentMouseState;

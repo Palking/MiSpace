@@ -30,8 +30,8 @@ namespace MiSpace
             Components.Add(camera);    
             floor = new Floor(GraphicsDevice, 20, 20);
             effect = new BasicEffect(GraphicsDevice);
-            //cuboid = new Cuboid(GraphicsDevice, 1, 1, 1);
-            movedCuboid = new Cuboid(GraphicsDevice, new Vector3(3, 0, 2), 2, 1, 1);
+            cuboid = new Cuboid(GraphicsDevice, 1, 1, 1);
+            //movedCuboid = new Cuboid(GraphicsDevice, new Vector3(3, 0, 2), 2, 1, 1);
             //sphere = new Sphere(GraphicsDevice, 10);
             base.Initialize();
         }
@@ -48,20 +48,23 @@ namespace MiSpace
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
-
-            base.Update(gameTime);
+            if (this.IsActive)
+            {
+                if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    Exit();
+                base.Update(gameTime);
+            }
         }
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-            floor.Draw(camera, effect);
-            //cuboid.Draw(camera, effect);
-            movedCuboid.Draw(camera, effect);
-            //sphere.Draw(camera, effect);
-            base.Draw(gameTime);
+                GraphicsDevice.Clear(Color.CornflowerBlue);
+                floor.Draw(camera, effect);
+                cuboid.Draw(camera, effect);
+                //movedCuboid.Draw(camera, effect);
+                //sphere.Draw(camera, effect);
+                base.Draw(gameTime);
+            
         }
     }
 }

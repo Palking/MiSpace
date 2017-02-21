@@ -61,14 +61,14 @@ namespace MiSpace
 
         private void BuildCubeBuffer()
         {
-            Vector3 p1 = new Vector3(-width, height, length);
-            Vector3 p2 = new Vector3(-width, -height, length);
-            Vector3 p3 = new Vector3(width, -height, length);
-            Vector3 p4 = new Vector3(width, height, length);
-            Vector3 p5 = new Vector3(-width, height, -length);
-            Vector3 p6 = new Vector3(-width, -height, -length);
-            Vector3 p7 = new Vector3(width, -height, -length);
-            Vector3 p8 = new Vector3(width, height, -length);
+            Vector3 p1 = new Vector3(-width / 2, height / 2, length / 2);
+            Vector3 p2 = new Vector3(-width / 2, -height / 2, length / 2);
+            Vector3 p3 = new Vector3(width / 2, -height / 2, length / 2);
+            Vector3 p4 = new Vector3(width / 2, height / 2, length / 2);
+            Vector3 p5 = new Vector3(-width / 2, height / 2, -length / 2);
+            Vector3 p6 = new Vector3(-width / 2, -height / 2, -length / 2);
+            Vector3 p7 = new Vector3(width / 2, -height / 2, -length / 2);
+            Vector3 p8 = new Vector3(width / 2, height / 2, -length / 2);
 
             //Transform points to absolute coordinates
             p1 += Position;
