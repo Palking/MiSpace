@@ -201,11 +201,10 @@ namespace MiSpace
                 deltaY = 0;
             }
 
-
-            //BUG:
-            //      - Throws Exception when game is closed: System.NullReferenceException
-            //          only when closed by 'X' or ESC, not alt + f4
-            Mouse.SetPosition(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
+            if (Game.IsActive)
+            {
+                Mouse.SetPosition(Game.GraphicsDevice.Viewport.Width / 2, Game.GraphicsDevice.Viewport.Height / 2);
+            }
 
             previousMouseState = currentMouseState;
 

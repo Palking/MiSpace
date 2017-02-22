@@ -10,10 +10,6 @@ namespace MiSpace
 {
     class Cuboid
     {
-        //TODO:
-        //      Calling BuildCubeBuffer in constructor causes the overloaded 
-        //      constructor to call it twice / before the position is set.
-        //  --->0,0,0 cube is still in the buffer.
         private float height;
         private float width;
         private float length;
@@ -61,6 +57,8 @@ namespace MiSpace
 
         private void BuildCubeBuffer()
         {
+            vertexList.Clear();
+
             Vector3 p1 = new Vector3(-width / 2, height / 2, length / 2);
             Vector3 p2 = new Vector3(-width / 2, -height / 2, length / 2);
             Vector3 p3 = new Vector3(width / 2, -height / 2, length / 2);
@@ -77,6 +75,8 @@ namespace MiSpace
             p4 += Position;
             p5 += Position;
             p6 += Position;
+            p7 += Position;
+            p8 += Position;
 
             vertexList.Add(new Rectangle(device, p1, p2, p4, p3));
             vertexList.Add(new Rectangle(device, p8, p7, p5, p6));
