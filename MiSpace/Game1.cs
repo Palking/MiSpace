@@ -14,10 +14,14 @@ namespace MiSpace
         Cuboid cuboid;
         Cuboid movedCuboid;
         Cuboid movedCuboid2;
+        Cuboid acadCube;
         Triangle triangle;
         Rectangle rectangle;
         BasicEffect effect;
         Sphere sphere;
+
+        Model acadModel;
+        Texture2D acadTexture;
 
         public Game1()
         {
@@ -36,11 +40,14 @@ namespace MiSpace
             movedCuboid2 = new Cuboid(GraphicsDevice, new Vector3(5, 0, 4), 1, 1, 1);
             //sphere = new Sphere(GraphicsDevice, 10);
             base.Initialize();
+            acadCube = new Cuboid(GraphicsDevice, new Vector3(5, 0, 4), 1, 1, 1);
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            acadModel = Content.Load<Model>("models/player");
+            acadTexture = Content.Load<Texture2D>("textures/tarmac_0");
         }
 
         protected override void UnloadContent()
@@ -63,8 +70,9 @@ namespace MiSpace
             GraphicsDevice.Clear(Color.CornflowerBlue);
             floor.Draw(camera, effect);
             //cuboid.Draw(camera, effect);
-            movedCuboid.Draw(camera, effect);
-            movedCuboid2.Draw(camera, effect);
+            //movedCuboid.Draw(camera, effect);
+            //movedCuboid2.Draw(camera, effect);
+            acadCube.DrawModel(acadModel, acadTexture, camera);
             //sphere.Draw(camera, effect);
             base.Draw(gameTime);   
         }

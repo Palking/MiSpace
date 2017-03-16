@@ -95,6 +95,22 @@ namespace MiSpace
             }
         }
 
+        public void DrawModel(Model model, Texture2D texture, Camera camera)
+        {
+            foreach (ModelMesh mesh in model.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.View = camera.View;
+                    effect.Projection = camera.Projection;
+                    effect.World = Matrix.CreateScale(1f) * Matrix.Identity;
+                    effect.EnableDefaultLighting();
+                    //effect.TextureEnabled = true;
+                    //effect.Texture = texture;
+                }
+                mesh.Draw();
+            }
+        }
         private BoundingBox UpdateBoundingBox(Matrix worldMatrix)
         {
             //Get min and max (opposite corners) of the cuboid relativ to position
